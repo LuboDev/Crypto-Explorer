@@ -1,0 +1,13 @@
+.flex-container {
+    display: flex;
+    width: 100%;
+    min-height: 500px;
+    background-color: red;
+  }
+  
+  .flex-item {
+    background-color: yellow;
+    width: 80%;
+    margin: 20px auto;
+  }
+  
