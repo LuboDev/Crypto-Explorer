@@ -63,3 +63,27 @@ $(document).ready(function () {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+$("#check_balance_form").submit(function(e) {
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+    var form = $(this);
+    var url = `${BASE_URL}/balance`
+
+    $.ajax({
+           type: "GET",
+           url: url,
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data) {
+                $('#account_balance_eth').text(data.amount + " " + data.ticker)
+                $('#account_balance_dollars').text((data.amount * data.price).toFixed(2) + " USD")
+           },
+           error: function(err) {
+                $('#account_balance_eth').text("")
+                $('#account_balance_dollars').text("")
+                alert(err.responseText)
+                console.log(err)
+           }
+         });
+});

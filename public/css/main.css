@@ -87,6 +87,40 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+#check_balance_form input {
+  
+}
+
+#check_balance_form label {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+h1.center {
+  text-align: center;
+  margin-top: 20px;
+}
+
+h2.center {
+  text-align: center;
+}
+
+#account_balance_eth {
+  margin-top: 20px;
+  padding-bottom: 0;
+}
+
+#account_balance_dollars {
+  margin-top: 0;
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -351,7 +385,7 @@ iframe {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;
-  margin: 40px auto;
+  margin: 60px auto;
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite; /* Safari */

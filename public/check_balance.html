@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/flex-container.css">
-
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 
@@ -29,23 +28,36 @@
 
 <body>
     <div class="header">
-        <a href="#default" class="logo">CompanyLogo</a>
+        <a href="#default" class="logo">Crypto Explorer</a>
         <div class="header-right">
             <a href="index.html">Home</a>
-            <a href="convertor.html">Convertor</a>
-            <a href="about.html">About</a>
-            <a class="active" href="contacts.html">Contacts</a>
+            <a class="active" href="check_balance.html">Check Balance</a>
+            <a href="contacts.html">Contacts</a>
         </div>
     </div>
 
     <div class="flex-container">
-        <div class="flex-item">Perfect centering!</div>
+        <div class="flex-item" >
+
+            <h1 class="center">Check Your ETH Balance</h1>
+
+            <form id="check_balance_form">
+                <label for="address"></label><br>
+                <input class="center" type="text" id="address" name="address", placeholder="Enter your ETH address"><br>
+                <input class="center" type="submit" value="Check">
+            </form>
+
+            <h2 class="center" id="account_balance_eth" ></h2>
+            <h2 class="center" id="account_balance_dollars"></h2>
+        </div>
     </div>
 
     <footer>
 
     </footer>
+
     <!-- Add your site or application content here -->
+    <script src="./js/vendor/jquery/jquery-3.5.1.min.js"></script>
     <script src="js/vendor/modernizr-3.11.2.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
