@@ -1,0 +1,27 @@
+{
+  "name": "crypto-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuboDev/Crypto_API_Server.git"
+  },
+  "author": "Lyuboslav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuboDev/Crypto_API_Server/issues"
+  },
+  "homepage": "https://github.com/LuboDev/Crypto_API_Server#readme"
+}
