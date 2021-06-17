@@ -1,34 +1,37 @@
+const nodemailer = require("nodemailer");
 const rp = require('request-promise');
 const express = require('express');
 const Web3 = require('web3');
-
-const fs = require('fs'); // to delete
-const { json } = require('express');
+require("dotenv").config();
 
 const app = express();
 const HOST = "0.0.0.0";
 const PORT = 17337;
-const BASE_API_HOST = "https://pro-api.coinmarketcap.com/v1"
-const API_KEY = "a5f23cda-26a8-4955-8ef3-a42b141e0ef2";
 
 const COINGECKO_BASE_API_HOST = "https://api.coingecko.com/api/v3/"
+const COINMARKETCAP_BASE_API_HOST = "https://pro-api.coinmarketcap.com/v1"
 
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.WEB3_PROVIDER))
+
+app.use(express.json())
+app.use(express.urlencoded())
 app.use(express.static('public'))
+
 app.route("/").get(function (req, res) {
     res.sendFile(process.cwd() + "/public/index.html")
 });
 
-app.get('/cryptocurrency', (request, response) => {
+app.get('/api/coins', (request, response) => {
 
     const requestOptions = {
         method: 'GET',
-        uri: `${BASE_API_HOST}/cryptocurrency/listings/latest`,
+        uri: `${COINMARKETCAP_BASE_API_HOST}/cryptocurrency/listings/latest`,
         qs: {
             'limit': '100',
             'convert': 'USD'
         },
         headers: {
-            'X-CMC_PRO_API_KEY': API_KEY
+            'X-CMC_PRO_API_KEY': process.env.COINMARKETCAP_API_KEY
         }
     };
    
@@ -47,10 +50,7 @@ app.get('/cryptocurrency', (request, response) => {
     });
 });
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/5f4123411c4044bdbd0dfb01a7d6ad08'))
-
-
-app.get('/balance', (request, response) => {
+app.get('/api/checkEthBalance', (request, response) => {
     let address = request.query['address']
     
     if (address == "") {
@@ -76,6 +76,43 @@ app.get('/balance', (request, response) => {
     }
 });
 
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    auth: {
+      user: process.env.FORM_EMAIL,
+      pass: process.env.FORM_EMAIL_PASS
+    }
+  });
+
+app.post('/api/sendEmail', (request, response) => {
+
+    const data = request.body.form
+    const mail = {
+        from: data.firstname + " " + data.lastname,
+        to: process.env.FORM_EMAIL,
+        subject: data.subject,
+        text: `${data.firstname + " " + data.lastname} <${data.email}> \n\n${data.message}`,
+      };
+
+      transporter.verify(function (error, success) {
+        if (error) {
+            console.log(error)
+            return
+        }
+
+        transporter.sendMail(mail, (err, data) => {
+            if (err) {
+                console.log(err)
+                response.status(500).send("Something went wrong.")
+            } else {
+                response.status(200).send("Email successfully sent to recipient!")
+            }
+        });
+      });
+});
+
+
 app.route("*").get(function (req, res) {
     res.sendFile(process.cwd() + "/public/404.html")
 });
@@ -98,13 +135,10 @@ const getEthereumCurrentPrice = new Promise((resolve, reject) => {
     });
 });
 
-// getEthereumCurrentPrice.then(price => {
-//     console.log(price)
-// }).catch((err) => {
-//     console.log(err)
-// });
+app.listen(PORT, HOST, () => console.log(`Express server currently running on port ${HOST}:${PORT}`));
 
 
+// MARK: - Utility
 function getFormattedDate(date) {
     let year = date.getFullYear();
     let month = (1 + date.getMonth()).toString().padStart(2, '0');
@@ -112,5 +146,3 @@ function getFormattedDate(date) {
   
     return day + '-' + month + '-' + year;
 }
-
-app.listen(PORT, HOST, () => console.log(`Express server currently running on port ${HOST}:${PORT}`));

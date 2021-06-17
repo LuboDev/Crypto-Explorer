@@ -2,7 +2,7 @@ const BASE_URL =  "http://0.0.0.0:17337";
 
 $(document).ready(function () {
 
-    $.getJSON(`${BASE_URL}/cryptocurrency`, function (result) {
+    $.getJSON(`${BASE_URL}/api/coins`, function (result) {
         $.each(result.data, function (index, currency) {
 
             var $row = $("<div />")
@@ -66,15 +66,14 @@ function numberWithCommas(x) {
 
 $("#check_balance_form").submit(function(e) {
 
-    e.preventDefault(); // avoid to execute the actual submit of the form.
-
+    e.preventDefault(); 
     var form = $(this);
-    var url = `${BASE_URL}/balance`
+    var url = `${BASE_URL}/api/checkEthBalance`
 
     $.ajax({
            type: "GET",
            url: url,
-           data: form.serialize(), // serializes the form's elements.
+           data: form.serialize(),
            success: function(data) {
                 $('#account_balance_eth').text(data.amount + " " + data.ticker)
                 $('#account_balance_dollars').text((data.amount * data.price).toFixed(2) + " USD")
@@ -82,6 +81,32 @@ $("#check_balance_form").submit(function(e) {
            error: function(err) {
                 $('#account_balance_eth').text("")
                 $('#account_balance_dollars').text("")
+                alert(err.responseText)
+                console.log(err)
+           }
+         });
+});
+
+$("#contact_form").submit(function(e) {
+
+    e.preventDefault();
+    var form = $(this);
+    var url = `${BASE_URL}/api/sendEmail`
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: form.serialize(),
+           success: function(data) {
+                $("#contact_form > input[type=text]").val("")
+                $("#contact_form > textarea").val("")
+                
+                alert("Your email is sent successfully. Thank You!")
+           },
+           error: function(err) {
+                $("#contact_form > input[type=text]").val("")    
+                $("#contact_form > textarea").val("")
+                
                 alert(err.responseText)
                 console.log(err)
            }

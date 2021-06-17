@@ -38,13 +38,37 @@
     </div>
 
     <div class="flex-container">
-        <div class="flex-item">Perfect centering!</div>
+        <div class="flex-item corner-radius">
+            <div class="container">
+                <form id="contact_form" enctype = "multipart/form-data">
+                  <label for="fname">First Name</label>
+                  <input type="text" required id="fname" name="form[firstname]" placeholder="Your name..">
+              
+                  <label for="lname">Last Name</label>
+                  <input type="text" required id="lname" name="form[lastname]" placeholder="Your last name..">
+              
+                  <label for="email">Email</label>
+                  <input type="text" required id="email" name="form[email]" placeholder="Your email..">
+              
+                  <label for="subject">Subject</label>
+                  <input type="text" required id="subject" name="form[subject]" placeholder="Write Subject ..">
+
+                  <label for="message">Message</label>
+                  <textarea id="message" required name="form[message]" placeholder="Write something.." style="min-height: 50px; height:200px"></textarea>
+              
+                  <input type="submit" value="Submit">
+                </form>
+              </div>
+        </div>
     </div>
 
     <footer>
 
     </footer>
+
     <!-- Add your site or application content here -->
+    <script src="./js/vendor/jquery/jquery-3.5.1.min.js"></script>
+
     <script src="js/vendor/modernizr-3.11.2.min.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
